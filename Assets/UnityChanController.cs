@@ -14,7 +14,8 @@ public class UnityChanController : MonoBehaviour
     private float dump = 0.8f;
     // ジャンプの速度
     float jumpVelocity = 20;
-
+    // ゲームオーバーになる位置（追加）
+    private float deadLine = -9;
 
     void Start()
     {
@@ -37,6 +38,11 @@ public class UnityChanController : MonoBehaviour
         //isGroundを利用してアニメーションを常に制御している
         this.animator.SetBool("isGround", isGround);
 
+        //AudioSourceコンポーネントを取得すると同時にvolume変数へ音量の値を代入している
+        // AudioSourceクラスの「volume」変数は、音量を表している
+        // ジャンプ状態のときにはボリュームを0にする（追加）
+        GetComponent<AudioSource>().volume = (isGround) ? 1 : 0;
+
         // 着地状態(isGround=trueとなっている(transform.position.y < this.groundLevel))でクリックされた場合
         if (Input.GetMouseButtonDown(0) && isGround)
         {
@@ -54,6 +60,26 @@ public class UnityChanController : MonoBehaviour
                 //上方向への速度を減速する
                 this.rigid2D.velocity *= this.dump;
             }
+        }
+
+        /*
+        Update関数の中でユニティちゃんの位置を毎フレーム調べ、ユニティちゃんが画面左端
+        （ユニティちゃんのx座標がdeadLine変数より小さい値）に移動した場合はゲームオーバーと判定する
+
+        UIControllerはCanvasオブジェクトにアタッチされているため、Find関数を使ってUIControllerがアタッチされているCanvasオブジェクトを検索し、
+        GetComponent関数を使ってCanvasにアタッチされているUIContorllerスクリプトを取得している
+
+        ！Findでオブジェクトを探してGetComponentでそのオブジェクトのスクリプトを取得する方法はよく使う！
+        */
+
+        // デッドラインを超えた場合ゲームオーバーにする（追加）
+        if (transform.position.x < this.deadLine)
+        {
+            // UIControllerのGameOver関数を呼び出して画面上に「GameOver」と表示する
+            GameObject.Find("Canvas").GetComponent<UIController>().GameOver();
+
+            // ユニティちゃんを破棄する
+            Destroy(gameObject);
         }
     }
 }
