@@ -261,7 +261,7 @@ GameObject:
   - component: {fileID: 483542706}
   m_Layer: 0
   m_Name: ground
-  m_TagString: Untagged
+  m_TagString: ground1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -978,7 +978,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: "\u4F55M\u8D70\u308C\u308B\u304B\u306A\uFF1F"
 --- !u!222 &1334273898
 CanvasRenderer:
   m_ObjectHideFlags: 0

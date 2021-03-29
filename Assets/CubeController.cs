@@ -13,7 +13,7 @@ public class CubeController : MonoBehaviour
 
     void Start()
     {
-
+        
     }
 
     void Update()
@@ -40,6 +40,18 @@ public class CubeController : MonoBehaviour
         if (transform.position.x < this.deadLine)
         {
             Destroy(gameObject);
+        }
+    }
+
+    //追加BGM
+    //トリガーではなくコライダー衝突
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "ground1" || collision.gameObject.tag == "block1")
+        {
+            //地面かブロックに当たった時のみ再生するので、
+            //インスペクターウィンドウの「Play on Awake」欄のチェックを外す
+            GetComponent<AudioSource>().Play();
         }
     }
 }
